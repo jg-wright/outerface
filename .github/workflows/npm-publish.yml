@@ -27,13 +27,6 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
 
-  publish-test:
-    needs: [publish-release]
-    if: needs.publish-release.outputs.pr && !needs.publish-release.outputs.release_created
-    uses: ./.github/workflows/test.yml
-    with:
-      ref: ${{ needs.publish-release.outputs.pr.headBranchName }}
-
   publish-npm:
     needs: [publish-release]
     if: needs.publish-release.outputs.release_created
