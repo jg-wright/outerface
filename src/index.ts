@@ -47,6 +47,7 @@ export interface Outerface<T> {
  *     return a.value - b.value;
  *   }
  * }
+ * ```
  */
 export function outerface<T extends Outerface<any>>() {
   return (_constructor: T) => {
