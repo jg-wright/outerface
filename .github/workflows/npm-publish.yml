@@ -9,26 +9,23 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: publish-release
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
       pr: ${{ steps.release.outputs.pr }}
     steps:
+      - id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PEM }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
       - uses: googleapis/release-please-action@v5
         id: release
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-  publish-test:
-    needs: [publish-release]
-    if: needs.publish-release.outputs.pr && !needs.publish-release.outputs.release_created
-    uses: ./.github/workflows/test.yml
-    with:
-      ref: ${{ needs.publish-release.outputs.pr.headBranchName }}
+          token: ${{ steps.app-token.outputs.token }}
 
   publish-npm:
     needs: [publish-release]
