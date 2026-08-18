@@ -36,6 +36,7 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install
       - run: npm run build
       - run: npm publish --provenance --access public
