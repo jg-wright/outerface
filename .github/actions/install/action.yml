@@ -1,0 +1,13 @@
+name: Install
+
+description: Install this app
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v7
+    - uses: actions/setup-node@v7
+      with:
+        node-version-file: .nvmrc
+    - shell: bash
+      run: npm ci

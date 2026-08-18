@@ -2,10 +2,6 @@ name: Test
 
 on:
   workflow_call:
-    inputs:
-      ref:
-        required: false
-        type: string
 
 jobs:
   test:
@@ -14,11 +10,6 @@ jobs:
       matrix:
         node-version: [22, 24, 26]
     steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: ${{ inputs.ref || '' }}
-      - uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npx tsc --noEmit && npm test
+      - uses: ./.github/actions/install
+      - run: npm run check
+      - run: npm test
