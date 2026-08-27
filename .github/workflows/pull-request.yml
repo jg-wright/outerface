@@ -3,6 +3,10 @@ name: Pull Request
 on:
   pull_request:
 
+concurrency:
+  cancel-in-progress: true
+  group: pr-${{ github.event.pull_request.number }}
+
 jobs:
   pr-test:
     uses: ./.github/workflows/test.yml
