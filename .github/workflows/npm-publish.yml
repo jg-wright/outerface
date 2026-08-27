@@ -11,8 +11,6 @@ jobs:
       group: publish-release
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
-      pr: ${{ steps.release.outputs.pr }}
     steps:
       - id: app-token
         uses: actions/create-github-app-token@v3
